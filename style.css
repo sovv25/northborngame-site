@@ -218,21 +218,22 @@ a { color: inherit; }
   margin: 0 0 20px;
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(44px, 11vw, 164px);
+  font-size: clamp(42px, 9.4vw, 150px);
   line-height: 0.88;
   letter-spacing: 0.04em;
   margin-left: -0.04em;
   text-shadow: 0 4px 40px rgba(0, 0, 0, 0.45);
 }
-.hero__band { max-width: 560px; }
 .hero__sub {
-  margin: 20px 0 0;
-  font-family: var(--display);
+  margin: 0;
+  font-family: var(--body);
   font-weight: 500;
-  font-size: clamp(17px, 2vw, 26px);
-  letter-spacing: 0.36em;
-  text-transform: uppercase;
+  font-size: clamp(32px, 4.2vw, 64px);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
+.hero__sub b { font-weight: 500; font-style: italic; color: var(--amber); }
 .hero__lede {
   margin: 26px 0 0;
   max-width: 30em;
@@ -640,7 +641,6 @@ a { color: inherit; }
   .bar__mark { font-size: 13px; letter-spacing: 0.22em; }
   .bar__nav { gap: 16px; }
   .hero__art img { object-position: 28% 40%; }
-  .hero__sub { letter-spacing: 0.26em; }
   .hero__lede br { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
   .hero__down { display: none; }
