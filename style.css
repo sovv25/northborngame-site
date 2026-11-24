@@ -1,5 +1,5 @@
 /* Northborn site. Built on the game's "Vadmál" look (undyed wool, square corners, one-pixel seams,
-   one tablet-woven band) and the warm amber / cool slate light of the title painting. */
+   amber diamond marks) and the warm amber / cool slate light of the title painting. */
 
 @font-face {
   font-family: "Cinzel";
@@ -38,7 +38,6 @@
   --max: 1200px;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
-  --band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Crect width='16' height='10' fill='%2323201d'/%3E%3Crect y='0' width='16' height='1' fill='%23a89f8d'/%3E%3Crect y='9' width='16' height='1' fill='%23a89f8d'/%3E%3Cpath d='M0 5 4 2 8 5 4 8Z' fill='%23b4432e'/%3E%3Cpath d='M8 5 12 2 16 5 12 8Z' fill='%235c8cb0'/%3E%3Crect x='3.5' y='4.5' width='1' height='1' fill='%23e6dfd0'/%3E%3Crect x='11.5' y='4.5' width='1' height='1' fill='%23e6dfd0'/%3E%3C/svg%3E");
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -113,13 +112,27 @@ a { color: inherit; }
 
 /* ---------- Ornament ---------- */
 
-.band {
-  height: 10px;
-  background: var(--band) repeat-x left center / 16px 10px;
-  image-rendering: pixelated;
+/* A thin seam; under headings it starts from a small amber diamond. */
+.band { height: 1px; background: var(--seam); }
+.band--short {
+  position: relative;
+  width: 112px;
+  height: 9px;
+  margin-top: 24px;
+  background: linear-gradient(var(--seam), var(--seam)) 12px center / calc(100% - 12px) 1px no-repeat;
 }
-.band--short { width: 112px; margin-top: 24px; }
-.band--center { margin-left: auto; margin-right: auto; }
+.band--short::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 7px;
+  height: 7px;
+  background: var(--amber);
+  transform: rotate(45deg);
+}
+.band--center { margin-left: auto; margin-right: auto; background: linear-gradient(to right, var(--seam) 0 calc(50% - 10px), transparent calc(50% - 10px) calc(50% + 10px), var(--seam) calc(50% + 10px)) center / 100% 1px no-repeat; }
+.band--center::before { left: calc(50% - 3.5px); }
 
 .rule { display: flex; align-items: center; justify-content: center; gap: 0; margin: 40px auto; max-width: 320px; }
 .rule::before, .rule::after { content: ""; flex: 1; height: 1px; background: var(--seam); }
@@ -584,6 +597,121 @@ a { color: inherit; }
 .follow .arrow { font-style: normal; color: var(--text-off); transition: transform 160ms, color 160ms; }
 .follow a:hover .arrow { transform: translateX(4px); color: var(--amber); }
 
+/* ---------- FAQ ---------- */
+
+.faq { padding: clamp(88px, 11vw, 150px) 0; background: var(--bg-deep); border-top: 1px solid var(--seam-soft); border-bottom: 1px solid var(--seam-soft); }
+.faq__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(36px, 7vw, 112px);
+  align-items: start;
+}
+.faq__list { border-top: 1px solid var(--seam); }
+.faq details { border-bottom: 1px solid var(--seam); }
+.faq summary {
+  position: relative;
+  display: block;
+  padding: 22px 48px 22px 6px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--display);
+  font-size: clamp(17px, 1.3vw, 20px);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+  transition: background-color 160ms, color 160ms;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -6px;
+  border-right: 1px solid var(--amber);
+  border-bottom: 1px solid var(--amber);
+  transform: rotate(45deg);
+  transition: transform 200ms var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(225deg); margin-top: -1px; }
+.faq summary:hover { background: var(--bg-raised); color: var(--amber); }
+.faq details[open] summary { color: var(--amber); }
+.faq details p { margin: 0; padding: 0 48px 26px 6px; max-width: 36em; color: var(--text-dim); }
+.faq a, .dev__prose a, .post a { color: var(--amber); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ---------- Devlog pages ---------- */
+
+.bar--page { background: rgba(20, 18, 16, 0.92); border-bottom-color: var(--seam-soft); padding-top: 14px; padding-bottom: 14px; }
+.bar__nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--amber); }
+
+.page { padding: clamp(130px, 14vw, 190px) 0 clamp(88px, 11vw, 150px); min-height: 70vh; }
+.page__head { margin-bottom: clamp(44px, 6vw, 76px); }
+.page__title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 88px);
+  line-height: 0.98;
+  letter-spacing: 0.03em;
+  text-wrap: balance;
+}
+.page__lede { margin: 24px 0 0; max-width: 32em; color: var(--text-dim); font-style: italic; font-size: 1.1em; }
+
+.posts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--seam); }
+.posts li { border-bottom: 1px solid var(--seam); }
+.posts a {
+  display: grid;
+  grid-template-columns: 9em minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: baseline;
+  padding: 28px 6px;
+  text-decoration: none;
+  transition: background-color 160ms, padding 160ms;
+}
+.posts a:hover { background: var(--bg-raised); padding-left: 14px; }
+.posts time, .post__meta {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-off);
+}
+.posts strong { display: block; font-family: var(--display); font-size: clamp(20px, 1.8vw, 26px); font-weight: 600; letter-spacing: 0.02em; line-height: 1.2; }
+.posts em { display: block; margin-top: 8px; font-style: normal; color: var(--text-dim); }
+.posts .arrow { font-style: normal; color: var(--text-off); transition: transform 160ms, color 160ms; }
+.posts a:hover .arrow { transform: translateX(4px); color: var(--amber); }
+.posts a:hover strong { color: var(--amber); }
+
+.post { max-width: 760px; }
+.post__meta { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 0 0 20px; }
+.post__meta .chapter__num { margin: 0; }
+.post__body { margin-top: clamp(40px, 5vw, 64px); }
+.post__body h2 {
+  margin: 56px 0 18px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(24px, 2.2vw, 32px);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+.post__body p, .post__body ul { margin: 0 0 1em; max-width: 34em; }
+.post__body ul { padding-left: 1.1em; }
+.post__body li { margin-bottom: 0.4em; }
+.post__body li::marker { color: var(--amber); }
+.post__note {
+  margin: 48px 0 0;
+  padding: 18px 22px;
+  border: 1px solid var(--seam);
+  background: var(--bg-raised);
+  box-shadow: inset 3px 0 0 var(--amber);
+  color: var(--text-dim);
+  font-size: 0.95em;
+}
+.post__back { display: inline-block; margin-top: 56px; }
+
 /* ---------- Footer ---------- */
 
 .foot { background: var(--bg-deep); }
@@ -617,7 +745,8 @@ a { color: inherit; }
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 960px) {
-  .chapter__grid, .dev__grid { grid-template-columns: minmax(0, 1fr); }
+  .chapter__grid, .dev__grid, .faq__grid { grid-template-columns: minmax(0, 1fr); }
+  .faq .section__head { margin-bottom: 0; }
   .chapter--flip .frame { order: 0; }
   .frame { max-width: 520px; }
   .seasons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -652,4 +781,9 @@ a { color: inherit; }
   .ledger > div:not(.ledger__head) { grid-template-columns: 5.6em minmax(0, 1fr); padding: 10px 16px; gap: 12px; }
   .ledger__head { padding: 12px 16px; }
   .world__card { padding: 26px 22px; }
+  .bar__nav a[href^="https://"] { display: none; }
+  .faq summary { padding-right: 40px; }
+  .faq details p { padding-right: 6px; }
+  .posts a { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .posts .arrow { display: none; }
 }
